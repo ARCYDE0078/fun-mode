@@ -2,8 +2,6 @@ package funmode.curses;
 
 import arc.graphics.Color;
 import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Lines;
-import arc.math.Mathf;
 import arc.util.Time;
 import funmode.core.Curse;
 import mindustry.content.Blocks;
@@ -87,10 +85,14 @@ public class SlowProjectorCurse implements Curse{
             consumePower(1f);
         }
 
+        @Override
+        public void drawPlace(int x, int y, int rotation, boolean valid){
+            super.drawPlace(x, y, rotation, valid);
+            Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, fieldColor);
+        }
+
         public class SlowProjectorBuild extends Building{
             float pulse = 0f;
-            /** 1 right as a pulse fires, decays to 0 - brightens the ring for a visible "tick". */
-            float flash = 0f;
             /** Set during the pulse scan, resolved after it - no killing buildings mid-iteration. */
             Building overdriveVictim = null;
 
@@ -101,7 +103,6 @@ public class SlowProjectorCurse implements Curse{
                 pulse += Time.delta;
                 if(pulse < PULSE_TICKS) return;
                 pulse = 0f;
-                flash = 1f;
 
                 //ALL buildings in radius, yours included - the field doesn't discriminate; the
                 //projector spares only itself
@@ -136,20 +137,14 @@ public class SlowProjectorCurse implements Curse{
                 Drawf.dashCircle(x, y, range, Pal.lancerLaser);
             }
 
-            /** Persistent field radius, so the slowdown zone is visible without hovering/selecting
-             * the block - plus a brief brighter flash each time {@link #updateTile} actually pulses. */
+            /** Persistent field radius, so the slowdown zone is visible without hovering/selecting the block. */
             @Override
             public void draw(){
                 super.draw();
                 if(efficiency <= 0f) return;
 
-                flash = Mathf.approachDelta(flash, 0f, 1f / 20f);
-
                 Draw.z(Layer.effect);
-                Draw.color(fieldColor, 0.18f + 0.5f * flash + 0.08f * Mathf.absin(Time.time, 8f, 1f));
-                Lines.stroke(1.5f + 2.5f * flash);
-                Lines.circle(x, y, range);
-                Draw.reset();
+                Drawf.dashCircle(x, y, range, fieldColor);
             }
         }
     }
