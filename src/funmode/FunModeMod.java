@@ -109,6 +109,7 @@ public class FunModeMod extends Mod{
             for(Curse c : curses) c.init();
             buildSettings();
             showFirstLaunchWarning();
+            funmode.core.Chat.buildHud();
         });
     }
 
