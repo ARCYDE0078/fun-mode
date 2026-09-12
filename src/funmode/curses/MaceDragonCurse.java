@@ -14,13 +14,16 @@ import mindustry.type.Weapon;
 import static mindustry.Vars.tilesize;
 
 /**
- * The mace's flamethrower now reaches 20 tiles - and LOOKS it, too. Flame range is speed*lifetime
+ * The mace's flamethrower now reaches 7.5 tiles - and LOOKS it, too. Flame range is speed*lifetime
  * (stretched before content init so the unit's attack range recomputes), and the shoot effect is a
  * clone of vanilla Fx.shootSmallFlame with the particle travel stretched from 60 world units to the
- * full 20 tiles, a longer lifetime, and a few more particles so the stream doesn't look sparse.
+ * full 7.5 tiles, a longer lifetime, and a few more particles so the stream doesn't look sparse.
+ * <p>
+ * Nerfed down from an original 20 tiles - that reach made the mace outrange most early turrets, at
+ * sonka's request.
  */
 public class MaceDragonCurse implements Curse{
-    static final float RANGE_TILES = 20f;
+    static final float RANGE_TILES = 7.5f;
 
     /** Fx.shootSmallFlame at dragon scale: same colors and shape, ~2.7x the reach, 2x the lifetime. */
     static final Effect longFlame = new Effect(64f, 220f, e -> {
