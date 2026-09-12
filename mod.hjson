@@ -1,6 +1,6 @@
 displayName: "Fun Mode"
 name: "sonka-fun-mode"
-author: "sonka"
+author: "ARCYDE"
 main: "funmode.FunModeMod"
 description: "[TESTING VERSION - may contain bugs and softlocks!] A meme overhaul in the spirit of Factorio's Fun Mode: a pile of cursed-but-playable gameplay changes, each toggleable. Works in singleplayer and when hosting; joining someone else's server disables the simulation-touching curses.\n\n[ТЕСТОВАЯ ВЕРСИЯ - возможны баги и софтлоки!] Мем-переделка в духе Fun Mode для Factorio: набор безумных, но играбельных изменений геймплея, каждое из которых можно включить или выключить отдельно. Работает в одиночной игре и при хостинге; при подключении к чужому серверу механики, влияющие на симуляцию, автоматически отключаются."
 subtitle: "Also try Erekir invasion"
