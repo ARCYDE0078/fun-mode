@@ -16,17 +16,22 @@ import static mindustry.Vars.tilesize;
 /**
  * The mace's flamethrower now reaches 7.5 tiles - and LOOKS it, too. Flame range is speed*lifetime
  * (stretched before content init so the unit's attack range recomputes), and the shoot effect is a
- * clone of vanilla Fx.shootSmallFlame with the particle travel stretched from 60 world units to the
- * full 7.5 tiles, a longer lifetime, and a few more particles so the stream doesn't look sparse.
+ * clone of vanilla Fx.shootSmallFlame with the particle travel driven by the same {@link #RANGE_TILES}
+ * constant, so visual and mechanical range can never drift apart.
  * <p>
  * Nerfed down from an original 20 tiles - that reach made the mace outrange most early turrets, at
- * sonka's request.
+ * sonka's request. At 20 tiles the burst's own life/clip (64/220) were stretched well past vanilla's
+ * 32/80 to give particles time to cross the much longer distance; now that 7.5 tiles works out to the
+ * same 60 world units as vanilla's flame, life/clip went back down to vanilla's own values too - left
+ * at the old stretched numbers, the burst lingered on screen far longer than the mace's 22-tick reload,
+ * so 2-3 shots' flames overlapped at once and visually smeared past the real 7.5-tile edge.
  */
 public class MaceDragonCurse implements Curse{
     static final float RANGE_TILES = 7.5f;
 
-    /** Fx.shootSmallFlame at dragon scale: same colors and shape, ~2.7x the reach, 2x the lifetime. */
-    static final Effect longFlame = new Effect(64f, 220f, e -> {
+    /** Fx.shootSmallFlame at dragon scale: same colors, shape and timing, just a few more particles
+     * so the stream doesn't look sparse. */
+    static final Effect longFlame = new Effect(32f, 80f, e -> {
         Draw.color(Pal.lightFlame, Pal.darkFlame, Color.gray, e.fin());
 
         Angles.randLenVectors(e.id, 18, e.finpow() * RANGE_TILES * tilesize, e.rotation, 10f, (x, y) -> {
